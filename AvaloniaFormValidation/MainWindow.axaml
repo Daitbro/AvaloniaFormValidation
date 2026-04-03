@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaFormValidation.ViewModels"
+        x:Class="AvaloniaFormValidation.Views.MainWindow"
+        Title="Регистрация пользователя"
+        Width="500" Height="550">
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <StackPanel Margin="20">
+        
+        <TextBlock Text="Регистрация пользователя" 
+                   FontSize="20" 
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"/>
+        
+        <!-- Имя -->
+        <TextBlock Text="Имя *" FontWeight="Bold" Margin="0,5,0,2"/>
+        <TextBox Text="{Binding Person.FirstName, Mode=TwoWay}"/>
+        <TextBlock Text="{Binding FirstNameError}" 
+                   Foreground="Red" 
+                   FontSize="11"/>
+        
+        <!-- Фамилия -->
+        <TextBlock Text="Фамилия *" FontWeight="Bold" Margin="0,10,0,2"/>
+        <TextBox Text="{Binding Person.LastName, Mode=TwoWay}"/>
+        <TextBlock Text="{Binding LastNameError}" 
+                   Foreground="Red" 
+                   FontSize="11"/>
+        
+        <!-- Отчество -->
+        <TextBlock Text="Отчество" FontWeight="Bold" Margin="0,10,0,2"/>
+        <TextBox Text="{Binding Person.Patronymic, Mode=TwoWay}"/>
+        
+        <!-- Пол -->
+        <TextBlock Text="Пол *" FontWeight="Bold" Margin="0,10,0,2"/>
+        <ComboBox ItemsSource="{Binding Genders}"
+                  SelectedItem="{Binding Person.Gender}"/>
+        <TextBlock Text="{Binding GenderError}" 
+                   Foreground="Red" 
+                   FontSize="11"/>
+        
+        <!-- Возраст -->
+        <TextBlock Text="Вам есть 18 лет или больше? *" 
+                   FontWeight="Bold" 
+                   Margin="0,10,0,5"/>
+        <StackPanel Orientation="Horizontal" Spacing="20">
+            <RadioButton GroupName="Age" Content="Да" 
+                         IsChecked="{Binding Person.IsAdult}"/>
+            <RadioButton GroupName="Age" Content="Нет" 
+                         IsChecked="{Binding Person.IsAdult, Converter={x:Static BoolConverters.Not}}"/>
+        </StackPanel>
+        
+        <!-- Кнопка -->
+        <Button Content="Сохранить"
+                Command="{Binding SaveCommand}"
+                HorizontalAlignment="Center"
+                Width="150"
+                Height="35"
+                Margin="0,20,0,0"/>
+        
+        <TextBlock Text="* - обязательные поля" 
+                   FontSize="10" 
+                   Foreground="Gray"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>
